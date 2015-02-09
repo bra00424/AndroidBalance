@@ -3,18 +3,16 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:clickable="true">
 
     <TextView android:text="@string/weight" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="33dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="78dp"
         android:id="@+id/textView1"
-        android:layout_alignParentTop="true"
+        android:textSize="30sp"
+        android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="30sp" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:text="@string/sample_id"
@@ -32,24 +30,25 @@
         android:id="@+id/button3"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/textView1"
-        android:layout_toEndOf="@+id/textView1" />
+        android:layout_toEndOf="@+id/textView1"
+        android:clickable="true" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editText"
-        android:layout_alignTop="@+id/textView1"
-        android:layout_alignLeft="@+id/editText2"
-        android:layout_alignStart="@+id/editText2" />
+        android:id="@+id/balanceInput"
+        android:layout_below="@+id/textView"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/sampleInput"
         android:layout_alignBottom="@+id/textView2"
         android:layout_toRightOf="@+id/textView2"
         android:layout_toEndOf="@+id/textView2" />
@@ -60,9 +59,28 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Android Balance"
         android:id="@+id/textView"
-        android:layout_alignParentTop="true"
         android:textSize="40sp"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_alignStart="@+id/textView1" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="voice"
+        android:id="@+id/speakBalanceButton"
+        android:layout_above="@+id/sampleInput"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:clickable="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="voice"
+        android:id="@+id/speakSampleButton"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignLeft="@+id/speakBalanceButton"
+        android:layout_alignStart="@+id/speakBalanceButton"
+        android:clickable="true" />
 
 </RelativeLayout>

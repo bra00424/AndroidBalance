@@ -1,39 +1,106 @@
 package com.gel.androidbalance;
 
-import android.support.v7.app.ActionBarActivity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.speech.RecognizerIntent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
+public class MainActivity extends Activity {
 
-public class MainActivity extends ActionBarActivity {
+    private static final int REQUEST_CODE = 1234;
+    private ListView resultList;
+    Button speakBalanceButton;
+    Button speakSampleButton;
+    Button uploadButton;
+    EditText balanceInput;
+    EditText sampleInput;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        speakBalanceButton = (Button) findViewById(R.id.speakBalanceButton);
+
+        speakSampleButton = (Button) findViewById(R.id.speakSampleButton);
+
+        //  resultList = (ListView) findViewById(R.id.list);
+        balanceInput = (EditText) findViewById(R.id.balanceInput);
+        sampleInput = (EditText) findViewById(R.id.sampleInput);
+        // Disable button if no recognition service is present
+        PackageManager pm = getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
+                RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+        if (activities.size() == 0) {
+            speakBalanceButton.setEnabled(false);
+            speakSampleButton.setEnabled(false);
+
+        }
+        speakBalanceButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startVoiceRecognitionActivity(1);
+            }
+        });
+
+        speakSampleButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startVoiceRecognitionActivity(2);
+            }
+        });
+
+
+
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    private void startVoiceRecognitionActivity(int req) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "AndroidBite Voice Recognition...");
+        //startActivityForResult(intent, REQUEST_CODE);
+        startActivityForResult(intent, req);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        //  if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data
+                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            //resultList.setAdapter(new ArrayAdapter<String>(this,
+            //  android.R.layout.simple_list_item_1, matches));
+            balanceInput.setText(matches.get(0));
+
+
         }
 
-        return super.onOptionsItemSelected(item);
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data
+                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            //resultList.setAdapter(new ArrayAdapter<String>(this,
+            //  android.R.layout.simple_list_item_1, matches));
+            sampleInput.setText(matches.get(0));
+
+        }
+
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
