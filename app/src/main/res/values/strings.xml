@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">AndroidBalance</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="weight">Weight</string>
+    <string name="sample_id">Sample ID</string>
     <string name="action_settings">Settings</string>
 
 </resources>
